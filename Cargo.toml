@@ -1,0 +1,6 @@
+[package]
+name = "mining_client"
+version = "0.1.0"
+authors = ["zplett <zplett@oberlin.edu>"]
+
+[dependencies]
