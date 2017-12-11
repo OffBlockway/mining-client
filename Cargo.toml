@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["zplett <zplett@oberlin.edu>"]
 
 [dependencies]
+off_blockway = "0.0.3"
