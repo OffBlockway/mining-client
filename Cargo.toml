@@ -5,3 +5,7 @@ authors = ["zplett <zplett@oberlin.edu>"]
 
 [dependencies]
 off_blockway = "0.0.3"
+chrono = "0.4.0"
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0.7"

@@ -8,6 +8,7 @@
 // Use statements
 //
 // Standard string
+#[allow(unused_imports)]
 use std::string::String;
 
 // The header message
@@ -16,6 +17,7 @@ pub const HEADER: &str = "\nWelcome to the Off Blockway Party Chain Mining Clien
 Type 'help' or '-h' for a help message on how to use the mining client or 'quit' or '-q' to quit the mining client.\n";
 
 // The registration message
+#[allow(dead_code)]
 pub const REGISTRATION: &str = "\nCongratulations! You have successfully registered with one of the full nodes on the network!\n";
     
 // The help message
