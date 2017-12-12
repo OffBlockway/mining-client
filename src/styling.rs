@@ -20,6 +20,10 @@ Type 'help' or '-h' for a help message on how to use the mining client or 'quit'
 #[allow(dead_code)]
 pub const REGISTRATION: &str = "\nCongratulations! You have successfully registered with one of the full nodes on the network!\n";
 
+// Invalid input message
+#[allow(dead_code)]
+pub const INVALID: &str = "\nCommand not recognized. For a list of commands, request the help message.\n";
+
 // The failed registration message
 #[allow(dead_code)]
 pub const FAILED: &str = "\nYour registration with a full node failed! That means that there are no full nodes on the network currently, come back another time to mine Off Blockway!\n";

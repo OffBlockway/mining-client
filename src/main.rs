@@ -304,6 +304,20 @@ pub fn input_stream()
             break;
             
         }
+        // If the user queries for a trivia question
+        else if input.clone() == "-c" || input.clone() == "construct"
+        {
+
+            // TODO: query trivia databse 
+            
+        }
+        // Otherwise the user entered an invalid command 
+        else
+        {
+
+            println!( "{}", styling::INVALID );
+            
+        }
         
     }   
     
