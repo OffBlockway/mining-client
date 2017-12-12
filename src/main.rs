@@ -280,8 +280,7 @@ pub fn input_stream()
     let input = io::stdin();
     print!( "{}\n", styling::HEADER );
     // Start the node server
-    Command::new( "forever" ).args( &[ "start", "./js/server.js" ] ).output().expect( "Could
-      not start the server" );
+    Command::new( "forever" ).args( &[ "start", "./js/server.js" ] ).output().expect( "Could not start the server" );
     // While the input stream has not reached EOF
     for line in input.lock().lines()
     {
