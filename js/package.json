@@ -5,7 +5,8 @@
   "main": "server.js",
   "dependencies": {
     "express": "^4.16.2",
-    "forever": "^0.15.3"
+    "forever": "^0.15.3",
+    "request-json": "^0.6.2"
   },
   "devDependencies": {},
   "scripts": {
