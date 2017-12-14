@@ -91,6 +91,8 @@ pub fn input_stream()
     print!( "{}\n", styling::HEADER );
     // Start the node server
     Command::new( "forever" ).args( &[ "start", "./js/server.js" ] ).output().expect( "Could not start the server" );
+    // Trivia flag
+    let mut trivia = false; 
     // While the input stream has not reached EOF
     for line in input.lock().lines()
     {
@@ -118,27 +120,41 @@ pub fn input_stream()
         else if input.clone() == "-c" || input.clone() == "construct"
         {
 
+            trivia = !trivia;
+            continue;
+            
+        }
+        // Otherwise the user entered an invalid command 
+        if !trivia 
+        {
+
+            println!( "{}", styling::INVALID );
+            
+        }
+        // If the trivia boolean has been set 
+        if trivia
+        {
+
             // Pulls a random question from the archive 
             let question = archive.clone().random();
             // Buffer
             println!( "----------------------------------------------------------------" );
             // Prints the category
-            println!( "\nCategory: {}", question.category() );
+            println!( "\nCategory: {}\n", question.category() );
+            // Buffer
+            println!( "----------------------------------------------------------------" );
             // Prints the type
-            println!( "\nType: {}", question.kind() );
+            println!( "\nType: {}\n", question.kind() );
+            // Buffer
+            println!( "----------------------------------------------------------------" );
             // Prints the difficulty
-            println!( "\nDifficulty: {}", question.difficulty() );
+            println!( "\nDifficulty: {}\n", question.difficulty() );
+            // Buffer
+            println!( "----------------------------------------------------------------" );
             // Prints the question
-            println!( "\nQuestion: {}", question.question() );
-            
-            
-            
-        }
-        // Otherwise the user entered an invalid command 
-        else
-        {
-
-            println!( "{}", styling::INVALID );
+            println!( "\nQuestion: {}\n", question.question() );
+            // Buffer
+            println!( "----------------------------------------------------------------\n" );
             
         }
         
