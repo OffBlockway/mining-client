@@ -16,23 +16,31 @@ extern crate rand;
 #[allow(unused_imports)]
 use std::path::Path;
 // Prelude
+#[allow(unused_imports)]
 use std::io::prelude::*;
 // Commands
+#[allow(unused_imports)]
 use std::process::Command;
-// Standard library 
+// Standard library
+#[allow(unused_imports)]
 use std::*;
 // Used for timestamps
+#[allow(unused_imports)]
 use self::chrono::Utc;
 // Use off blockway functionality
+#[allow(unused_imports)]
 use self::off_blockway::*;
 // Used for serialization
+#[allow(unused_imports)]
 use self::serde_json::{ Error, Value };
 // Used for writing to files
 #[allow(unused_imports)]
 use std::fs::{ OpenOptions, File };
 // Strings
+#[allow(unused_imports)]
 use std::string::String;
 // Random numbers
+#[allow(unused_imports)]
 use rand::distributions::{ Range, IndependentSample };
 
 /*
@@ -396,7 +404,6 @@ impl Archive
         // Reads in JSON
         let mut json = String::new();
         file.read_to_string( &mut json );
-        // println!( "{}", json);
         // Return the string
         Ok( json )
         
@@ -408,9 +415,11 @@ impl Archive
 
         // Construct the question 
         let string = Archive::read_json( file_name ).unwrap();
-        //println!( "{}", string);
+        // Read the JSON
         let val: Value = serde_json::from_str( string.as_ref() ).expect( "Failed to convert JSON to Archive" );
+        // Read the results into a vector
         let log: Vec<Question> = serde_json::from_str( val[ "results" ].to_string().as_ref() ).unwrap();
+        // Create an archive out of the vector 
         let archive = Archive::new( log );
         // Return the log
         Ok( archive )
@@ -426,7 +435,7 @@ impl Archive
         // Generates the random number 
         let between = Range::new( 0, cap );
         let mut rng = rand::thread_rng();
-        let mut index = between.ind_sample( &mut rng );
+        let index = between.ind_sample( &mut rng );
         // The question to return
         let question = self.log.get( index ).clone();
         // Returns the question

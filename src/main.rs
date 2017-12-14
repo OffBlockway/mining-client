@@ -20,15 +20,19 @@ extern crate rand;
 #[allow(unused_imports)]
 use std::path::Path;
 // Prelude
+#[allow(unused_imports)]
 use std::io::prelude::*;
 // Commands
+#[allow(unused_imports)]
 use std::process::Command;
-// Standard library 
+// Standard library
+#[allow(unused_imports)]
 use std::*;
 // Used for writing to files
 #[allow(unused_imports)]
 use std::fs::{ OpenOptions, File };
-// Passport and miner 
+// Passport and miner
+#[allow(unused_imports)]
 use json::{ Miner, Passport, Archive, Question };
 
 // Modules
@@ -93,15 +97,13 @@ pub fn input_stream()
     // While the input stream has not reached EOF
     for line in input.lock().lines()
     {
-        
-        // Input form this line
-        let input = line.unwrap();
-        // If the trivia boolean has been set 
+
+        // Pulls a random question from the archive 
+        let question = archive.clone().random();
+        // If the trivia boolean has been set
         if trivia
         {
-            
-            // Pulls a random question from the archive 
-            let question = archive.clone().random();
+
             // Options vector
             let mut options = question.incorrect();
             // Pushes correct option
@@ -136,50 +138,44 @@ pub fn input_stream()
             }
             // Buffer
             println!( "----------------------------------------------------------------\n" );
-            if input.clone() == question.correct()
+            
+        }
+        // Input form this line
+        let input = line.unwrap();
+        if !trivia
+        {
+            // If the user requests the help message
+            if input.clone() == "-h" || input.clone() == "help"
             {
-
-                println!( "{}", styling::CORRECT );
+                
+                println!( "{}", styling::HELP );
                 
             }
-            else
+            // If the user requests to quit
+            else if input.clone() == "-q" || input.clone() == "quit"
             {
-
-                println!( "{}", styling::INCORRECT)
+                
+                println!( "{}", styling::BYE );
+                Command::new( "forever" ).args( &[ "stop", "js/server.js" ] ).output().expect(
+                    "Could not stop process" );
+                break;
                 
             }
-            
-        }
-        // If the user requests the help message
-        if input.clone() == "-h" || input.clone() == "help"
-        {
-            
-            println!( "{}", styling::HELP );
-            
-        }
-        // If the user requests to quit
-        else if input.clone() == "-q" || input.clone() == "quit"
-        {
-            
-            println!( "{}", styling::BYE );
-            Command::new( "forever" ).args( &[ "stop", "js/server.js" ] ).output().expect(
-                "Could not stop process" );
-            break;
-            
-        }
-        // If the user queries for a trivia question
-        else if input.clone() == "-c" || input.clone() == "construct"
-        {
+            // If the user queries for a trivia question
+            else if input.clone() == "-c" || input.clone() == "construct"
+            {
 
-            trivia = !trivia;
-            continue;
-            
-        }
-        // Otherwise the user entered an invalid command 
-        if !trivia 
-        {
-
-            println!( "{}", styling::INVALID );
+                trivia = !trivia;
+                continue;
+                
+            }
+            // Otherwise the user entered an invalid command 
+            else 
+            {
+                
+                println!( "{}", styling::INVALID );
+                
+            }
             
         }
         
