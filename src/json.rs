@@ -34,8 +34,8 @@ use std::string::String;
 /*
  *
  * JSON:
- *     - Contains all structs and impls associated with JSON serialization of the data sent to  
- *       the client. 
+ *     - Contains all structs and impls associated with JSON serialization of the data sent 
+ *       to the client. 
  * 
  */
 
@@ -232,3 +232,109 @@ impl Miner
     } 
     
 } 
+
+/*
+ *
+ * Trivia:
+ *     - The structs and methods associated with a trivia question 
+ *
+ */
+
+// Question stuct
+//
+// Questions have a category, type, difficulty, question, correct answer, and a vector of
+// incorrect answers. 
+#[derive( Serialize, Deserialize )]
+pub struct Question
+{
+
+    // The category of the question
+    category: String,
+    // The kind ( type ) of question
+    kind: String, 
+    // The difficulty of the question
+    difficulty: String,
+    // The question
+    question: String,
+    // The correct answer
+    correct: String,
+    // The incorrect answers
+    incorrect: Vec<String>
+    
+}
+
+// Question impl, has methods for deserializing questions
+impl Question
+{
+
+    // Constructs the question from JSON
+    pub fn read_and_construct( file_name: &str ) -> Result< Question, Error >
+    {
+
+        // Construct the question 
+        let string = Question::read_json( file_name );
+        let question: Question = serde_json::from_str( string.as_ref().unwrap() ).expect( "Failed to convert JSON to Question" );
+        // Return the question
+        Ok( question )
+        
+    }
+
+    // Reads the JSON
+    pub fn read_json( file_name: &str ) -> Result< String, Error >
+    {
+
+        // Open a readable file at the filepath
+        let mut file = OpenOptions::new( ).read( true ).open( file_name ).unwrap();
+        // Reads in JSON
+        let mut json = String::new();
+        file.read_to_string( &mut json );
+        // Return the string
+        Ok( json )
+        
+    }   
+    
+}
+
+// Archive of all trivia questions
+//
+// Archives have a vector of questions
+#[derive( Serialize, Deserialize )]
+pub struct Archive
+{
+
+    // The questions
+    log: Vec<Question>
+    
+}
+
+// Archive impl
+impl Archive
+{
+
+    // Reads the JSON
+    pub fn read_json( file_name: &str ) -> Result< String, Error >
+    {
+
+        // Open a readable file at the filepath
+        let mut file = OpenOptions::new( ).read( true ).open( file_name ).unwrap();
+        // Reads in JSON
+        let mut json = String::new();
+        file.read_to_string( &mut json );
+        // Return the string
+        Ok( json )
+        
+    }   
+
+    // Constructs the log from JSON
+    pub fn read_and_construct( file_name: &str ) -> Result< Archive, Error >
+    {
+
+        // Construct the question 
+        let string = Archive::read_json( file_name );
+        let log: Archive = serde_json::from_str( string.as_ref().unwrap() ).expect( "Failed to convert JSON to Question" );
+        // Return the log
+        Ok( log )
+        
+    }
+    
+}
