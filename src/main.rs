@@ -1,4 +1,4 @@
-// Serde used for serialization
+// Serde macro use used for deriving serialization
 #[macro_use]
 extern crate serde_derive;
 
@@ -59,9 +59,6 @@ fn main()
     // TODO: have input stream use trivia database and ship package on success 
     
     input_stream();
-    //let archive = Archive::read_and_construct( "./json/trivia.json" );
-    //let question = archive.unwrap().random();
-    //println!("{:?}", question.question());
     
 }
 
@@ -99,6 +96,60 @@ pub fn input_stream()
         
         // Input form this line
         let input = line.unwrap();
+        // If the trivia boolean has been set 
+        if trivia
+        {
+            
+            // Pulls a random question from the archive 
+            let question = archive.clone().random();
+            // Options vector
+            let mut options = question.incorrect();
+            // Pushes correct option
+            options.push( question.correct() );
+            // Buffer
+            println!( "----------------------------------------------------------------" );
+            // Prints the category
+            println!( "\nCategory: {}\n", question.category() );
+            // Buffer
+            println!( "----------------------------------------------------------------" );
+            // Prints the type
+            println!( "\nType: {}\n", question.kind() );
+            // Buffer
+            println!( "----------------------------------------------------------------" );
+            // Prints the difficulty
+            println!( "\nDifficulty: {}\n", question.difficulty() );
+            // Buffer
+            println!( "----------------------------------------------------------------" );
+            // Prints the question
+            println!( "\nQuestion: {}\n", question.question() );
+            // Amount of options in the current question
+            let cap = options.len();
+            // Prints the options
+            for index in 0 .. cap
+            {
+                
+                // Buffer
+                println!( "----------------------------------------------------------------" );
+                // Option
+                println!( "\nOption {}: {}\n", index + 1, options.get( index ).unwrap() );
+                
+            }
+            // Buffer
+            println!( "----------------------------------------------------------------\n" );
+            if input.clone() == question.correct()
+            {
+
+                println!( "{}", styling::CORRECT );
+                
+            }
+            else
+            {
+
+                println!( "{}", styling::INCORRECT)
+                
+            }
+            
+        }
         // If the user requests the help message
         if input.clone() == "-h" || input.clone() == "help"
         {
@@ -129,32 +180,6 @@ pub fn input_stream()
         {
 
             println!( "{}", styling::INVALID );
-            
-        }
-        // If the trivia boolean has been set 
-        if trivia
-        {
-
-            // Pulls a random question from the archive 
-            let question = archive.clone().random();
-            // Buffer
-            println!( "----------------------------------------------------------------" );
-            // Prints the category
-            println!( "\nCategory: {}\n", question.category() );
-            // Buffer
-            println!( "----------------------------------------------------------------" );
-            // Prints the type
-            println!( "\nType: {}\n", question.kind() );
-            // Buffer
-            println!( "----------------------------------------------------------------" );
-            // Prints the difficulty
-            println!( "\nDifficulty: {}\n", question.difficulty() );
-            // Buffer
-            println!( "----------------------------------------------------------------" );
-            // Prints the question
-            println!( "\nQuestion: {}\n", question.question() );
-            // Buffer
-            println!( "----------------------------------------------------------------\n" );
             
         }
         
