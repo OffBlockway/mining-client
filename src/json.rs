@@ -395,7 +395,7 @@ impl Archive
         // Reads in JSON
         let mut json = String::new();
         file.read_to_string( &mut json );
-        //println!( "{}", json);
+        // println!( "{}", json);
         // Return the string
         Ok( json )
         
@@ -425,13 +425,7 @@ impl Archive
         // Generates the random number 
         let between = Range::new( 0, cap );
         let mut rng = rand::thread_rng();
-        let mut index = 0;
-        for _ in 0 .. cap
-        {
-
-            index += between.ind_sample( &mut rng );
-
-        }
+        let mut index = between.ind_sample( &mut rng );
         // The question to return
         let question = self.log.get( index ).clone();
         // Returns the question
