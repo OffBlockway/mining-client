@@ -142,6 +142,24 @@ pub fn input_stream()
         }
         // Input form this line
         let input = line.unwrap();
+        if trivia
+        {
+
+            if input.clone() == question.correct()
+            {
+
+                println!( "{}", styling::CORRECT );
+                trivia = !trivia;
+                
+            }
+            else
+            {
+
+                println!( "{}", styling::INCORRECT );
+                
+            }
+
+        }
         if !trivia
         {
             // If the user requests the help message
