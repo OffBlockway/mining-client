@@ -5,19 +5,19 @@ const server = express()
 // Listen to get requests over the standard slug
 server.get( '/', ( req, rest ) => res.send( 'hello world!' ) )
 
-// Requesting logic
-request = require( 'request-json')
-var trivia = request.createClient( 'https://opentdb.com/' )
-trivia.get( 'https://opentdb.com/api.php?amount=50' ).pipe( fs.createWriteStream( 'trivia.json' ) )
-
-// Listen on port specified
+// Listen on 3000 
 server.listen( 3000, () => console.log( 'Listening on 3000' ) )
 
-const fs = require( 'fs' );
-var string = 'ok why is this not working';
-var path = './trivia.json'
+// Requesting logic
+//request = require( 'request-json')
+const request = require('request');
+const fs = require( 'fs' )
+let stream = fs.createWriteStream( './json/trivia.json' )
+request( 'https://opentdb.com/api.php?amount=50', { json: true }, (err, res, body) =>
+         {
+             
+             if( err ) {  console.log( 'sucks' ); }
+             stream.write( JSON.stringify( body ) )
+             
+         } );
 
-fs.writeFile( path, string, (err) => {
-    if (err) throw err;
-    console.log( 'File saved!' );
-})

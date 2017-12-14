@@ -11,6 +11,8 @@ extern crate chrono;
 // Used for serialization
 extern crate serde;
 extern crate serde_json;
+// Used for random numbers
+extern crate rand; 
 
 // Use statements
 //
@@ -27,7 +29,7 @@ use std::*;
 #[allow(unused_imports)]
 use std::fs::{ OpenOptions, File };
 // Passport and miner 
-use json::{ Miner, Passport };
+use json::{ Miner, Passport, Archive, Question };
 
 // Modules
 //
@@ -103,7 +105,7 @@ pub fn input_stream()
         {
             
             println!( "{}", styling::BYE );
-            Command::new( "forever" ).args( &["stop", "js/server.js" ] ).output().expect(
+            Command::new( "forever" ).args( &[ "stop", "js/server.js" ] ).output().expect(
                 "Could not stop process" );
             break;
             
@@ -111,8 +113,55 @@ pub fn input_stream()
         // If the user queries for a trivia question
         else if input.clone() == "-c" || input.clone() == "construct"
         {
+            let archive = Archive::read_and_construct( "./json/trivia.json" );
+            let question = archive.unwrap().random();
+            /*
+            let stream = io::stdin();
+            // Asks trivia questions until the user answers correctly 
+            for trivia_line in stream.lock().lines()
+            {
 
-            // TODO: query trivia databse 
+                // Creates the archive of questions
+                let archive = Archive::read_and_construct( "./json/trivia.json" );
+                // Pulls a random question from the archive
+                let question = archive.unwrap().random();
+                // Prints the category
+                println!( "Category: {}", question.category() );
+                // Prints the kind of question
+                println!( "Type of question: {}", question.kind() );
+                // Prints the difficulty of the question
+                println!( "Question difficulty: {}", question.difficulty() );
+                // Prints the question
+                println!( "Question: {}", question.question() );
+                // Options vector
+                let mut options = question.incorrect().clone();
+                // Pushes the correct answer
+                options.push( question.correct().clone() );
+                // Prints the options
+                for index in 0 .. 4
+                {
+
+                    println!( "Option {}: {}", index + 1, *options.get( index ).unwrap() );
+                    
+                }
+                // Gets the input line 
+                let trivia_input = trivia_line.unwrap();
+                if trivia_input.clone() == question.correct()
+                {
+
+                    println!( "Congratulations! You have answered correctly, the verified data will now be sent to your full node. Thank you for mining Off Blockway" );
+                    // TODO DO BLOCK STUFF
+                    break;
+                    
+                }
+                else
+                {
+
+                    println!( "Unfortunately you did not answer the question correctly, please try again." );
+                    
+                }
+                
+           } */
             
         }
         // Otherwise the user entered an invalid command 

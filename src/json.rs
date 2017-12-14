@@ -7,6 +7,8 @@ extern crate serde_json;
 extern crate off_blockway;
 // Used for telling time
 extern crate chrono;
+// Used for random numbers
+extern crate rand;
 
 // Use statements
 //
@@ -24,12 +26,14 @@ use self::chrono::Utc;
 // Use off blockway functionality
 use self::off_blockway::*;
 // Used for serialization
-use self::serde_json::Error;
+use self::serde_json::{ Error, Value };
 // Used for writing to files
 #[allow(unused_imports)]
 use std::fs::{ OpenOptions, File };
 // Strings
 use std::string::String;
+// Random numbers
+use rand::distributions::{ Range, IndependentSample };
 
 /*
  *
@@ -67,6 +71,7 @@ impl Passport
 {
 
     // Constructor for a new passport
+    #[allow(dead_code)]
     pub fn new() -> Self
     {
 
@@ -104,6 +109,7 @@ impl Passport
     }
 
     // Serializes the passport as JSON
+    #[allow(dead_code)]
     pub fn write_to( &self, file_name: &str ) -> Result< (), Error >
     {
 
@@ -148,7 +154,8 @@ pub struct Miner
 impl Miner
 {
 
-    // New constructor 
+    // New constructor
+    #[allow(dead_code)]
     pub fn new() -> Self
     {
 
@@ -188,6 +195,7 @@ impl Miner
     }
 
     // Serializes the miner as JSON
+    #[allow(dead_code)]
     pub fn write_to( &self, file_name: &str ) -> Result< (), Error >
     {
         
@@ -204,6 +212,7 @@ impl Miner
     }
 
     // Creates the Merkle Tree given the transaction log
+    #[allow(dead_code)]
     pub fn construct_merkle( &mut self, file_name: &str )
     {
 
@@ -223,6 +232,7 @@ impl Miner
     } 
 
     // Resets the block's Merkle after the nodes are added 
+    #[allow(dead_code)]
     pub fn reset_block_merkle( &mut self )
     {
 
@@ -244,7 +254,7 @@ impl Miner
 //
 // Questions have a category, type, difficulty, question, correct answer, and a vector of
 // incorrect answers. 
-#[derive( Serialize, Deserialize )]
+#[derive( Serialize, Deserialize, Clone )]
 pub struct Question
 {
 
@@ -267,7 +277,56 @@ pub struct Question
 impl Question
 {
 
+    // Returns the question's category
+    pub fn category( &self ) -> String
+    {
+
+        self.category.clone()
+        
+    }
+
+    // Returns the question's type
+    pub fn kind( &self ) -> String
+    {
+
+        self.kind.clone()
+        
+    }
+
+    // Returns the question's difficulty
+    pub fn difficulty( &self ) -> String
+    {
+
+        self.difficulty.clone()
+        
+    }
+
+    // Returns the question
+    pub fn question( &self ) -> String
+    {
+
+        self.question.clone()
+        
+    }
+
+    // Returns the correct answer
+    pub fn correct( &self ) -> String
+    {
+        
+        self.correct.clone()
+        
+    }
+
+    // Returns the incorrect answers
+    pub fn incorrect( &self ) -> Vec<String>
+    {
+
+        self.incorrect.clone()
+        
+    }
+    
     // Constructs the question from JSON
+    #[allow(dead_code)]
     pub fn read_and_construct( file_name: &str ) -> Result< Question, Error >
     {
 
@@ -280,6 +339,7 @@ impl Question
     }
 
     // Reads the JSON
+    #[allow(dead_code)]
     pub fn read_json( file_name: &str ) -> Result< String, Error >
     {
 
@@ -298,7 +358,7 @@ impl Question
 // Archive of all trivia questions
 //
 // Archives have a vector of questions
-#[derive( Serialize, Deserialize )]
+#[derive( Serialize, Deserialize, Clone )]
 pub struct Archive
 {
 
@@ -331,9 +391,33 @@ impl Archive
 
         // Construct the question 
         let string = Archive::read_json( file_name );
-        let log: Archive = serde_json::from_str( string.as_ref().unwrap() ).expect( "Failed to convert JSON to Question" );
+        let val: Value = serde_json::from_str( string.unwrap().as_ref() ).expect( "Failed to convert JSON to Archive" );
+        let log: Archive = serde_json::from_str( val[ "results" ].to_string().as_ref() ).unwrap();
         // Return the log
         Ok( log )
+        
+    }
+
+    // Returns a random question from the archive
+    pub fn random( &self ) -> Question
+    {
+
+        // The length of the vector 
+        let cap = self.log.capacity();
+        // Generates the random number 
+        let between = Range::new( 0, cap );
+        let mut rng = rand::thread_rng();
+        let mut index = 0;
+        for _ in 0 .. cap
+        {
+
+            index += between.ind_sample( &mut rng );
+
+        }
+        // The question to return
+        let question = self.log.get( index ).clone();
+        // Returns the question
+        question.unwrap().clone()
         
     }
     
