@@ -255,6 +255,7 @@ impl Miner
 // Questions have a category, type, difficulty, question, correct answer, and a vector of
 // incorrect answers. 
 #[derive( Serialize, Deserialize, Clone )]
+#[derive(Debug)]
 pub struct Question
 {
 

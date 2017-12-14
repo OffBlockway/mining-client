@@ -59,7 +59,9 @@ fn main()
     // TODO: have input stream use trivia database and ship package on success 
     
     input_stream();
-    
+    //let archive = Archive::read_and_construct( "./json/trivia.json" );
+    //let question = archive.unwrap().random();
+    //println!("{:?}", question.question());
     
 }
 
@@ -84,6 +86,8 @@ pub fn input_stream()
 
     // Get the input reader
     let input = io::stdin();
+    // Trivia archive 
+    let archive = Archive::read_and_construct( "./json/trivia.json" ).unwrap();
     print!( "{}\n", styling::HEADER );
     // Start the node server
     Command::new( "forever" ).args( &[ "start", "./js/server.js" ] ).output().expect( "Could not start the server" );
@@ -113,55 +117,21 @@ pub fn input_stream()
         // If the user queries for a trivia question
         else if input.clone() == "-c" || input.clone() == "construct"
         {
-            let archive = Archive::read_and_construct( "./json/trivia.json" );
-            let question = archive.unwrap().random();
-            /*
-            let stream = io::stdin();
-            // Asks trivia questions until the user answers correctly 
-            for trivia_line in stream.lock().lines()
-            {
 
-                // Creates the archive of questions
-                let archive = Archive::read_and_construct( "./json/trivia.json" );
-                // Pulls a random question from the archive
-                let question = archive.unwrap().random();
-                // Prints the category
-                println!( "Category: {}", question.category() );
-                // Prints the kind of question
-                println!( "Type of question: {}", question.kind() );
-                // Prints the difficulty of the question
-                println!( "Question difficulty: {}", question.difficulty() );
-                // Prints the question
-                println!( "Question: {}", question.question() );
-                // Options vector
-                let mut options = question.incorrect().clone();
-                // Pushes the correct answer
-                options.push( question.correct().clone() );
-                // Prints the options
-                for index in 0 .. 4
-                {
-
-                    println!( "Option {}: {}", index + 1, *options.get( index ).unwrap() );
-                    
-                }
-                // Gets the input line 
-                let trivia_input = trivia_line.unwrap();
-                if trivia_input.clone() == question.correct()
-                {
-
-                    println!( "Congratulations! You have answered correctly, the verified data will now be sent to your full node. Thank you for mining Off Blockway" );
-                    // TODO DO BLOCK STUFF
-                    break;
-                    
-                }
-                else
-                {
-
-                    println!( "Unfortunately you did not answer the question correctly, please try again." );
-                    
-                }
-                
-           } */
+            // Pulls a random question from the archive 
+            let question = archive.clone().random();
+            // Buffer
+            println!( "----------------------------------------------------------------" );
+            // Prints the category
+            println!( "\nCategory: {}", question.category() );
+            // Prints the type
+            println!( "\nType: {}", question.kind() );
+            // Prints the difficulty
+            println!( "\nDifficulty: {}", question.difficulty() );
+            // Prints the question
+            println!( "\nQuestion: {}", question.question() );
+            
+            
             
         }
         // Otherwise the user entered an invalid command 
