@@ -87,11 +87,12 @@ pub fn input_stream()
 
     // Get the input reader
     let input = io::stdin();
-    // Trivia archive 
-    let archive = Archive::read_and_construct( "./json/trivia.json" ).unwrap();
+    // Header message 
     print!( "{}\n", styling::HEADER );
     // Start the node server
     Command::new( "forever" ).args( &[ "start", "./js/server.js" ] ).output().expect( "Could not start the server" );
+    // Trivia archive
+    let archive = Archive::read_and_construct( "./json/trivia.json" ).unwrap();
     // Trivia flag
     let mut trivia = false; 
     // While the input stream has not reached EOF
@@ -142,40 +143,52 @@ pub fn input_stream()
         }
         // Input form this line
         let input = line.unwrap();
+        // If the trivia protocol is in progress, evaluate user input 
         if trivia
         {
 
+            // If the user's input is the same as the correct answer 
             if input.clone() == question.correct()
             {
 
+                // Print the correct answer message 
                 println!( "{}", styling::CORRECT );
+                // Turn the trivia boolean off
                 trivia = !trivia;
+                // Continue to the next iteration of the loop 
                 
             }
+            // Otherwise, it was an incorrect answer 
             else
             {
 
+                // Print the incorrect answer message 
                 println!( "{}", styling::INCORRECT );
                 
             }
 
         }
+        // If the trivia protocol is not in progress 
         if !trivia
         {
             // If the user requests the help message
             if input.clone() == "-h" || input.clone() == "help"
             {
-                
+
+                // Print the help message 
                 println!( "{}", styling::HELP );
                 
             }
             // If the user requests to quit
             else if input.clone() == "-q" || input.clone() == "quit"
             {
-                
+
+                // Print the quit message 
                 println!( "{}", styling::BYE );
+                // Stop the server 
                 Command::new( "forever" ).args( &[ "stop", "js/server.js" ] ).output().expect(
                     "Could not stop process" );
+                // Break from the input loop 
                 break;
                 
             }
@@ -183,14 +196,17 @@ pub fn input_stream()
             else if input.clone() == "-c" || input.clone() == "construct"
             {
 
+                // Set the trivia boolean to true 
                 trivia = !trivia;
+                // Continue 
                 continue;
                 
             }
             // Otherwise the user entered an invalid command 
             else 
             {
-                
+
+                // Print the invalid command message 
                 println!( "{}", styling::INVALID );
                 
             }
