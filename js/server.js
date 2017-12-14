@@ -8,6 +8,11 @@ server.get( '/', ( req, rest ) => res.send( 'hello world!' ) )
 // Listen on 3000 
 server.listen( 3000, () => console.log( 'Listening on 3000' ) )
 
+// The client
+//var client = requestJson.createClient( 'https://boiling-cove-42309.herokuapp.com/' )
+
+//client.post( )
+
 // Requesting logic
 //request = require( 'request-json')
 const request = require('request');
