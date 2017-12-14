@@ -1,7 +1,7 @@
 // The client
 //var client = requestJson.createClient( 'https://boiling-cove-42309.herokuapp.com/' )
 
-//client.post( )
+//client.post( 'client')
 
 // Requesting logic
 const request = require('request');

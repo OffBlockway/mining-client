@@ -261,14 +261,17 @@ pub struct Question
     // The category of the question
     category: String,
     // The kind ( type ) of question
+    #[serde(rename="type")]
     kind: String, 
     // The difficulty of the question
     difficulty: String,
     // The question
     question: String,
     // The correct answer
+    #[serde(rename="correct_answer")]
     correct: String,
     // The incorrect answers
+    #[serde(rename="incorrect_answers")]
     incorrect: Vec<String>
     
 }
@@ -371,6 +374,18 @@ pub struct Archive
 impl Archive
 {
 
+    // New archive given vector
+    pub fn new( vector: Vec<Question> ) -> Self
+    {
+
+        Archive
+        {
+
+            log: vector
+            
+        }
+        
+    }
     // Reads the JSON
     pub fn read_json( file_name: &str ) -> Result< String, Error >
     {
@@ -380,6 +395,7 @@ impl Archive
         // Reads in JSON
         let mut json = String::new();
         file.read_to_string( &mut json );
+        //println!( "{}", json);
         // Return the string
         Ok( json )
         
@@ -390,11 +406,13 @@ impl Archive
     {
 
         // Construct the question 
-        let string = Archive::read_json( file_name );
-        let val: Value = serde_json::from_str( string.unwrap().as_ref() ).expect( "Failed to convert JSON to Archive" );
-        let log: Archive = serde_json::from_str( val[ "results" ].to_string().as_ref() ).unwrap();
+        let string = Archive::read_json( file_name ).unwrap();
+        //println!( "{}", string);
+        let val: Value = serde_json::from_str( string.as_ref() ).expect( "Failed to convert JSON to Archive" );
+        let log: Vec<Question> = serde_json::from_str( val[ "results" ].to_string().as_ref() ).unwrap();
+        let archive = Archive::new( log );
         // Return the log
-        Ok( log )
+        Ok( archive )
         
     }
 
