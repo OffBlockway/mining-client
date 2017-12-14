@@ -86,133 +86,134 @@ pub fn input_stream()
 {
 
     // Get the input reader
-    let input = io::stdin();
+    let stream = io::stdin();
     // Header message 
     print!( "{}\n", styling::HEADER );
     // Start the node server
     Command::new( "forever" ).args( &[ "start", "./js/server.js" ] ).output().expect( "Could not start the server" );
     // Trivia archive
     let archive = Archive::read_and_construct( "./json/trivia.json" ).unwrap();
-    // Trivia flag
-    let mut trivia = false; 
     // While the input stream has not reached EOF
-    for line in input.lock().lines()
+    loop
     {
 
-        // Pulls a random question from the archive 
-        let question = archive.clone().random();
-        // If the trivia boolean has been set
-        if trivia
+        // Current line input 
+        let mut input = String::new();
+        let current_line = stream.read_line( &mut input );
+        let length = input.clone().len();
+        // Removes new line character 
+        input.truncate( length - 1 );
+        // If the user requests the help message
+        if input.clone() == "-h" || input.clone() == "help"
         {
-
-            // Options vector
-            let mut options = question.incorrect();
-            // Pushes correct option
-            options.push( question.correct() );
-            // Buffer
-            println!( "----------------------------------------------------------------" );
-            // Prints the category
-            println!( "\nCategory: {}\n", question.category() );
-            // Buffer
-            println!( "----------------------------------------------------------------" );
-            // Prints the type
-            println!( "\nType: {}\n", question.kind() );
-            // Buffer
-            println!( "----------------------------------------------------------------" );
-            // Prints the difficulty
-            println!( "\nDifficulty: {}\n", question.difficulty() );
-            // Buffer
-            println!( "----------------------------------------------------------------" );
-            // Prints the question
-            println!( "\nQuestion: {}\n", question.question() );
-            // Amount of options in the current question
-            let cap = options.len();
-            // Prints the options
-            for index in 0 .. cap
-            {
-                
-                // Buffer
-                println!( "----------------------------------------------------------------" );
-                // Option
-                println!( "\nOption {}: {}\n", index + 1, options.get( index ).unwrap() );
-                
-            }
-            // Buffer
-            println!( "----------------------------------------------------------------\n" );
+            
+            // Print the help message 
+            println!( "{}", styling::HELP );
             
         }
-        // Input form this line
-        let input = line.unwrap();
-        // If the trivia protocol is in progress, evaluate user input 
-        if trivia
+        // If the user requests to quit
+        else if input.clone() == "-q" || input.clone() == "quit"
         {
-
-            // If the user's input is the same as the correct answer 
-            if input.clone() == question.correct()
-            {
-
-                // Print the correct answer message 
-                println!( "{}", styling::CORRECT );
-                // Turn the trivia boolean off
-                trivia = !trivia;
-                // Continue to the next iteration of the loop 
-                
-            }
-            // Otherwise, it was an incorrect answer 
-            else
-            {
-
-                // Print the incorrect answer message 
-                println!( "{}", styling::INCORRECT );
-                
-            }
-
+            
+            // Print the quit message 
+            println!( "{}", styling::BYE );
+            // Stop the server 
+            Command::new( "forever" ).args( &[ "stop", "js/server.js" ] ).output().expect( "Could not stop process" );
+            // Break from the input loop 
+            break;
+            
         }
-        // If the trivia protocol is not in progress 
-        if !trivia
+        // If the user queries for a trivia question
+        else if input.clone() == "-c" || input.clone() == "construct"
         {
-            // If the user requests the help message
-            if input.clone() == "-h" || input.clone() == "help"
-            {
 
-                // Print the help message 
-                println!( "{}", styling::HELP );
-                
-            }
-            // If the user requests to quit
-            else if input.clone() == "-q" || input.clone() == "quit"
-            {
-
-                // Print the quit message 
-                println!( "{}", styling::BYE );
-                // Stop the server 
-                Command::new( "forever" ).args( &[ "stop", "js/server.js" ] ).output().expect(
-                    "Could not stop process" );
-                // Break from the input loop 
-                break;
-                
-            }
-            // If the user queries for a trivia question
-            else if input.clone() == "-c" || input.clone() == "construct"
-            {
-
-                // Set the trivia boolean to true 
-                trivia = !trivia;
-                // Continue 
-                continue;
-                
-            }
-            // Otherwise the user entered an invalid command 
-            else 
-            {
-
-                // Print the invalid command message 
-                println!( "{}", styling::INVALID );
-                
-            }
+            // Run trivia protocol
+            trivia_protocol( archive.clone() );
+            
+        }
+        // Otherwise the user entered an invalid command 
+        else 
+        {
+            
+            // Print the invalid command message 
+            println!( "{}", styling::INVALID );
             
         }
         
     }   
     
+}
+
+pub fn trivia_protocol( archive: Archive )
+{
+
+    // IO stream 
+    let stream = io::stdin();
+    let archive = archive; 
+    loop
+    {
+
+        // Pulls a random question 
+        let question = archive.clone().random();
+        // Options vector
+        let mut options = question.incorrect();
+        // Pushes correct option
+        options.push( question.correct() );
+        // Buffer
+        println!( "----------------------------------------------------------------" );
+        // Prints the category
+        println!( "\nCategory: {}\n", question.category() );
+        // Buffer
+        println!( "----------------------------------------------------------------" );
+        // Prints the type
+        println!( "\nType: {}\n", question.kind() );
+        // Buffer
+        println!( "----------------------------------------------------------------" );
+        // Prints the difficulty
+        println!( "\nDifficulty: {}\n", question.difficulty() );
+        // Buffer
+        println!( "----------------------------------------------------------------" );
+        // Prints the question
+        println!( "\nQuestion: {}\n", question.question() );
+        // Amount of options in the current question
+        let cap = options.len();
+        // Prints the options
+        for index in 0 .. cap
+        {
+            
+            // Buffer
+            println!( "----------------------------------------------------------------" );
+            // Option
+            println!( "\nOption {}: {}\n", index + 1, options.get( index ).unwrap() );
+            
+        }
+        // Buffer
+        println!( "----------------------------------------------------------------\n" );
+        let mut input = String::new();
+        let current_line = stream.read_line( &mut input );
+        let length = input.clone().len();
+        // Removes new line character 
+        input.truncate( length - 1 );
+        // If the user's input is the same as the correct answer 
+        if input.clone() == question.correct().to_string()
+        {
+            
+            // Print the correct answer message 
+            println!( "{}", styling::CORRECT );
+            // Continue to the next iteration of the loop 
+            return;
+            
+        }
+        // Otherwise, it was an incorrect answer 
+        else
+        {
+            
+            // Print the incorrect answer message 
+            println!( "{}", styling::INCORRECT );
+            continue;
+            
+        }
+        
+    }
+
 }
