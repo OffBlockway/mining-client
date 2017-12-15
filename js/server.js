@@ -18,6 +18,7 @@ stream.end()
 // Path definitions
 let errorLog = './log/error.log'
 let requestLog = './log/request.log'
+let nodeLog = './log/node.log'
 
 // Listening logic 
 const express = require( 'express' )
@@ -29,6 +30,26 @@ const requestJson = require( 'request-json' )
 // The client
 var client = requestJson.createClient( 'https://boiling-cove-42309.herokuapp.com/' )
 
+request.post( 'https://boiling-cove-42309.herokuapp.com/miner/', '192.168.43.140:3000',  function( err, res, body ) {
+
+    if( err ) { console.log( "error!" ) }
+    if( res.statusCode == 450 )
+    {
+
+        fs.writeFile( './log/node.log', "450",  (err) =>{
+            if (err) throw err;
+        } )
+        
+    }
+    else {
+        
+        fs.writeFile( './log/url.log', body, (err) =>{
+            if (err) throw err;
+        } )
+        
+    }
+     
+} )
 // The full node
 
 // Post registration to client
@@ -38,5 +59,12 @@ var client = requestJson.createClient( 'https://boiling-cove-42309.herokuapp.com
 // Listen to get requests over the standard slug
 server.get( '/', ( req, res ) => res.send( 'hello world!' ) )
 
+/*
 // Listen on 3000
-server.listen( 3000, () => console.log( 'Listening on 3000' ) )
+server.listen( 3000, ( err ) => {
+
+    if(err) {console.log(err)}
+    else {console.log( 'Listening on 3000' )}
+
+})
+*/

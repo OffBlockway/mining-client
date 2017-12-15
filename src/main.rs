@@ -75,7 +75,24 @@ fn main()
 // Registers the mining node with the full client
 pub fn register_miner()
 {
-    
+
+    // Checks to see if URL was received from the client
+    let log = Path::new( "./log/node.log" );
+    // If the url error log exists 
+    if log.exists()
+    {
+
+        let mut file = File::open( "./log/node.log" ).unwrap();
+        let mut buffer = String::new();
+        file.read_to_string( &mut buffer );
+        if buffer == "450"
+        {
+
+            println!( "Unable to register with full node!" );
+            
+        }
+        
+    }
     // Creates a new passport
     let passport = Passport::new();
     // Creates the file path to the JSON passport
