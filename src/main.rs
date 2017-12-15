@@ -68,7 +68,8 @@ fn main()
     let mut miner = Miner::new();
     miner.construct_merkle( &"./json/transactions.json" );
     miner.write_to( &"dummy.json" );
-    */
+     */
+    
 }
 
 // Registers the mining node with the full client

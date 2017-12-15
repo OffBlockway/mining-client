@@ -241,10 +241,10 @@ impl Miner
         // Gets the node from the transaction log 
         let mut nodes: Vec<Transaction> = Merkle::read_and_construct( file_name).unwrap();
         // Verifies the transactions
-        for i in 0 .. nodes.len()
+        for node in &mut nodes
         {
 
-            nodes.get( i ).unwrap().verify();
+            node.verify();
             
         }
         // Inserts the nodes into the transaction tree

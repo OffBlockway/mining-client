@@ -7,29 +7,29 @@
                 "username": "xyz",
                 "content": "hey how is everyone doing today?",
                 "timestamp": "unknown",
-                "status": "unverified"
+                "status": "Verified"
             },
             {
                 "uid": 2,
                 "username": "zac",
                 "content": "how am i?",
                 "timestamp": "unknown",
-                "status": "unverified"
+                "status": "Verified"
             },
             {
                 "uid": 2,
                 "username": "zac",
                 "content": "blank",
                 "timestamp": "1513300672470",
-                "status": "Unverified"
+                "status": "Verified"
             }
         ]
     },
     "package": {
         "index": 0,
         "previous_hash": "f9e2eaaa42d9fe9e558a9b8ef1bf366f190aacaa83bad2641ee106e9041096e4",
-        "timestamp": "2017-12-15 02:20:09.205588 UTC",
+        "timestamp": "2017-12-15 03:01:01.645296 UTC",
         "merkle_root": "2f7275d1cbf7336ea7268d8fbdf4a4dec31bc246b6236ea0c95fa65852c19a83",
-        "hash": "dcd633d8cf4b08b26c8a1afddbda1a5cf40983bf6fe921eef5d2039360a992ee"
+        "hash": "02619ee35b51c1758da44933a04a831079ca4302e6d0f8442da630a36c06293f"
     }
 }
