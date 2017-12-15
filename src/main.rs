@@ -54,7 +54,7 @@ fn main()
 {
 
     // Registers the miner with the client 
-    //register_miner();
+    register_miner();
 
     // TODO: receive cargo
     
@@ -62,13 +62,13 @@ fn main()
 
     // TODO: have input stream use trivia database and ship package on success 
     
-    //input_stream();
+    input_stream();
 
-    
+    /*  
     let mut miner = Miner::new();
     miner.construct_merkle( &"./json/transactions.json" );
     miner.write_to( &"dummy.json" );
-     
+     */     
     
 }
 
