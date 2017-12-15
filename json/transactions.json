@@ -1,23 +1,23 @@
-{ "posts": [
+{ "nodes": [
     {
         "uid": 1,
         "username": "xyz",
         "content": "hey how is everyone doing today?",
         "timestamp": "unknown",
-        "verification": "unverified"
+        "status": "unverified"
     },
     {
         "uid": 2,
         "username": "zac",
         "content": "how am i?",
         "timestamp": "unknown",
-        "verification": "unverified"
+        "status": "unverified"
     },
     {
         "uid": 2,
         "username": "zac",
         "content": "blank",
-        "timestamp": 1513300672470,
-        "verification": "Unverified"
+        "timestamp": "1513300672470",
+        "status": "Unverified"
     }
 ] }
