@@ -8,15 +8,15 @@
     },
     {
         "uid": 2,
-        "username": "zaid",
+        "username": "zac",
         "content": "how am i?",
         "timestamp": "unknown",
         "verification": "unverified"
     },
     {
         "uid": 2,
-        "username": "zaid",
-        "content": "",
+        "username": "zac",
+        "content": "blank",
         "timestamp": 1513300672470,
         "verification": "Unverified"
     }
