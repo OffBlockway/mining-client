@@ -43,11 +43,10 @@ request.post( 'https://boiling-cove-42309.herokuapp.com/miner', '132.162.123.150
     }
     else {
         
-        fs.writeFile( './log/url.log', 'http://' + JSON.parse( res.body ).URL, (err) =>{
+        fs.writeFile( './log/url.log', 'https://' + JSON.parse( res.body ).URL, (err) =>{
             if (err) throw err;
         } )
-        //fullNode = 'http://' + JSON.parse( res.body ).URL;
-
+        
     }
     console.log( res.body );
     
@@ -65,12 +64,16 @@ const passport = fs.readFileSync( './json/passport.json', 'utf8', function( err,
 
 request.get( fullNode + '/', function ( err, res, body) {
     if ( err ) { console.log(err)}
+    else{
+
+        console.log( res.statusCode)
+    }
     console.log(body)
 })
 console.log(passport)
 console.log( fullNode + '/register/')
 // Post the passport to the full node 
-request.post( fullNode + '/register/', passport, function( err, res, body) {
+request.post( fullNode + 'register/', passport, function( err, res, body) {
 
     if(err) { console.log(err)}
     else if( res.statusCode == "450"){
