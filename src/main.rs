@@ -71,13 +71,12 @@ pub fn register_miner()
 {
     
     // Creates a new passport
-    #[allow(unused_must_use)]
     let passport = Passport::new();
     // Creates the file path to the JSON passport
     let path = "./json/passport.json";
     // Serializes the json using the given path
-    #[allow(unused_must_use)]
-    passport.write_to( &path );
+    #[allow(unused_variables)]
+    let temp = passport.write_to( &path );
     
 }
 
@@ -99,7 +98,8 @@ pub fn input_stream()
 
         // Current line input 
         let mut input = String::new();
-        stream.read_line( &mut input );
+        #[allow(unused_variables)]
+        let temp = stream.read_line( &mut input );
         let length = input.clone().len();
         // Removes new line character 
         input.truncate( length - 1 );
@@ -190,7 +190,8 @@ pub fn trivia_protocol( archive: Archive )
         // Buffer
         println!( "----------------------------------------------------------------\n" );
         let mut input = String::new();
-        stream.read_line( &mut input );
+        #[allow(unused_variables)]
+        let temp = stream.read_line( &mut input );
         let length = input.clone().len();
         // Removes new line character 
         input.truncate( length - 1 );
