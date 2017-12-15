@@ -7,9 +7,13 @@ request( 'https://opentdb.com/api.php?amount=50', { json: true }, (err, res, bod
              
              if( err ) {  console.log( 'sucks' ); }
              else
-             { stream.write( JSON.stringify( body ) ) }
+             { fs.writeFile( './json/trivia.json', JSON.stringify( body ), (err) =>{
+                 if (err) throw err;
+                 console.log("The file has been saved");
+             } ); }
              
          } );
+stream.end()
 
 // Path definitions
 let errorLog = './log/error.log'
