@@ -53,6 +53,8 @@ mod json;
 fn main()
 {
 
+    // Checks if 450 log exists
+    check_log();
     // Registers the miner with the client 
     register_miner();
 
@@ -72,6 +74,21 @@ fn main()
     
 }
 
+// Checks if error log has 450 status from previous executions
+pub fn check_log()
+{
+
+    // Checks to see if the path for 450 error exists 
+    let log = Path::new( "./log/node.log" );
+    if log.exists()
+    {
+
+        // Removes the log 
+        Command::new( "rm" ).args( &[ "./log/node.log" ] ).output().expect( "Could not remove log file." );
+    }
+    
+}
+
 // Registers the mining node with the full client
 pub fn register_miner()
 {
@@ -88,7 +105,12 @@ pub fn register_miner()
         if buffer == "450"
         {
 
-            println!( "Unable to register with full node!" );
+            // If there was a 450 error the invalid and goodbye messages are printed and the
+            // server is stopped. 
+            println!( "{}", styling::INVALID );
+            println!( "{}", styling::BYE );
+            Command::new( "forever" ).args( &[ "stop", "js/server.js" ] ).output().expect(
+                "Could not stop process" );
             
         }
         
@@ -100,7 +122,8 @@ pub fn register_miner()
     // Serializes the json using the given path
     #[allow(unused_variables)]
     let temp = passport.write_to( &path );
-    
+
+
 }
 
 // Input function
