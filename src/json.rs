@@ -44,7 +44,7 @@ use self::off_blockway::block::Block;
 use self::off_blockway::transaction::Transaction;
 // Used for serialization
 #[allow(unused_imports)]
-use self::serde_json::{ Error, Value };
+use self::serde_json::{ Value };
 // Used for writing to files
 #[allow(unused_imports)]
 use std::fs::{ OpenOptions, File };
@@ -54,6 +54,8 @@ use std::string::String;
 // Random numbers
 #[allow(unused_imports)]
 use rand::distributions::{ Range, IndependentSample };
+// Error handling
+use std::io::Error;
 
 /*
  *
@@ -239,7 +241,14 @@ impl Miner
     {
 
         // Gets the node from the transaction log 
-        let mut nodes: Vec<Transaction> = Merkle::read_and_construct( file_name).unwrap();
+        let result = Merkle::read_and_construct( file_name);
+        if result.is_err()
+        {
+
+            println!( "Error opening file" );
+            
+        }
+        let mut nodes: Vec<Transaction> = result.unwrap();
         // Verifies the transactions
         for node in &mut nodes
         {

@@ -1,26 +1,4 @@
-{
-    "uid": "c847aab9afb9c0e9e2e78eab216fa514c5f8bb667304f02b0b9e86649364b4a5",
-    "transactions": {
-        "nodes": [
-            {
-                "uid": 1,
-                "username": "xyz",
-                "content": "hey how is everyone doing today?",
-                "timestamp": "unknown",
-                "status": "Verified"
-            },
-            {
-                "uid": 2,
-                "username": "zac",
-                "content": "how am i?",
-                "timestamp": "unknown",
-                "status": "Verified"
-            },
-            {
-                "uid": 2,
-                "username": "zac",
-                "content": "blank",
-                "timestamp": "1513300672470",
+{"uid":"c847aab9afb9c0e9e2e78eab216fa514c5f8bb667304f02b0b9e86649364b4a5","transactions":{"nodes":[{"uid":1,"username":"xyz","content":"hey how is everyone doing today?","timestamp":"unknown","status":"Verified"},{"uid":2,"username":"zac","content":"how am i?","timestamp":"unknown","status":"Verified"},{"uid":2,"username":"zac","content":"blank","timestamp":"1513300672470","status":"Verified"}]},"package":{"index":0,"previous_hash":"f9e2eaaa42d9fe9e558a9b8ef1bf366f190aacaa83bad2641ee106e9041096e4","timestamp":"2017-12-15 18:18:23.603107 UTC","merkle_root":"2f7275d1cbf7336ea7268d8fbdf4a4dec31bc246b6236ea0c95fa65852c19a83","hash":"4e91d608932d1d5dcbd2b6379d8ca04e5d4aa844a339abd773c3fc93a2951487"}}300672470",
                 "status": "Verified"
             }
         ]
