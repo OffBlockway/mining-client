@@ -48,7 +48,7 @@ pub const BYE: &str = "\nBye! Thank you for mining Off Blockway.\n";
 
 // Correct trivia answer
 #[allow(dead_code)]
-pub const CORRECT: &str = "\nCongratulations! You have answered correctly. We will now construct a block out of the verified transactions you have mined so far and send it up to your full node!\n";
+pub const CORRECT: &str = "\nCongratulations! You have answered correctly. We'll construct a block out of the transactions you have verified and send it up to your full node.\n";
 
 // Incorrect trivia answer
 #[allow(dead_code)]

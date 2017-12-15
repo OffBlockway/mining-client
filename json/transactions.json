@@ -1,0 +1,23 @@
+{ "posts": [
+    {
+        "uid": 1,
+        "username": "xyz",
+        "content": "hey how is everyone doing today?",
+        "timestamp": "unknown",
+        "verification": "unverified"
+    },
+    {
+        "uid": 2,
+        "username": "zaid",
+        "content": "how am i?",
+        "timestamp": "unknown",
+        "verification": "unverified"
+    },
+    {
+        "uid": 2,
+        "username": "zaid",
+        "content": "",
+        "timestamp": 1513300672470,
+        "verification": "Unverified"
+    }
+] }
